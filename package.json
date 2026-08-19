@@ -1,0 +1,18 @@
+{
+  "name": "pictec-rea",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "archiver": "^8.0.0",
+    "kubo-rpc-client": "^7.1.0",
+    "opentimestamps": "^0.4.6"
+  }
+}

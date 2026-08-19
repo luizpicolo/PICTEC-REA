@@ -1,0 +1,9 @@
+node_modules
+src/keys/private-key.pem
+src/keys/public-key.pem
+file.pdf
+manifest.json
+prova.ots
+recuperado.pdf
+assinatura.sig
+.DS_Store
