@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Envie um recurso educacional para o PICTEC-REA.">
+  <title>Enviar obra | PICTEC-REA</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="PICTEC-REA - Início">
+        <span class="brand-mark">PR</span>
+        <span>PICTEC-REA<small>Repositório Educacional Aberto</small></span>
+      </a>
+      <nav class="nav" aria-label="Navegação principal">
+        <a href="index.html">Início</a>
+        <a href="obras.html">Obras</a>
+        <a class="active" href="enviar.html">Enviar obra</a><a href="checar.html">Verificar</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="form-page">
+    <div class="container form-layout">
+      <section class="form-card">
+        <h1>Enviar recurso educacional</h1>
+        <p class="form-intro">Preencha os dados abaixo e selecione o arquivo que deseja registrar.</p>
+
+        <form id="formulario-envio" enctype="multipart/form-data">
+          <div class="form-grid">
+            <label for="titulo">
+              Título da obra
+              <input id="titulo" name="titulo" type="text" placeholder="Ex.: Livro de JavaScript" required maxlength="200">
+            </label>
+
+            <label for="autor">
+              Autor
+              <input id="autor" name="autor" type="text" placeholder="Nome do autor ou autores" required maxlength="200">
+            </label>
+
+            <label for="versao">
+              Versão
+              <input id="versao" name="versao" type="text" value="1.0.0" placeholder="Ex.: 1.0.0" required maxlength="30">
+            </label>
+
+            <label for="arquivo">
+              Arquivo
+              <input id="arquivo" name="arquivo" type="file" required>
+              <span class="file-help">Selecione o recurso educacional que será registrado.</span>
+            </label>
+          </div>
+
+          <div class="form-actions">
+            <button class="button primary" id="botao-enviar" type="submit">Enviar obra</button>
+          </div>
+          <div id="status" class="status" role="status" aria-live="polite"></div>
+          <div id="resultado" class="result" hidden></div>
+        </form>
+      </section>
+
+      <aside class="info-card">
+        <h2>O que acontece com o arquivo?</h2>
+        <p class="file-help">O envio passa por etapas de registro antes de ser salvo.</p>
+        <ol class="steps">
+          <li><span class="step-number">1</span><div><strong>SHA-256</strong><span>É calculado o hash do arquivo.</span></div></li>
+          <li><span class="step-number">2</span><div><strong>IPFS</strong><span>O recurso é adicionado e fixado no IPFS.</span></div></li>
+          <li><span class="step-number">3</span><div><strong>Manifesto</strong><span>Os metadados são reunidos em um manifesto.</span></div></li>
+          <li><span class="step-number">4</span><div><strong>Assinatura</strong><span>O manifesto é assinado com a chave privada do sistema.</span></div></li>
+          <li><span class="step-number">5</span><div><strong>Timestamp</strong><span>É criada uma prova temporal para o hash do manifesto.</span></div></li>
+          <li><span class="step-number">6</span><div><strong>Registro</strong><span>Os dados principais são armazenados no SQLite.</span></div></li>
+        </ol>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">PICTEC-REA · Repositório Educacional Aberto</div>
+  </footer>
+
+  <script src="js/enviar.js"></script>
+</body>
+</html>

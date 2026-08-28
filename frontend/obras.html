@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Obras | PICTEC-REA</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html"><span class="brand-mark">PR</span><span>PICTEC-REA<small>Repositório Educacional Aberto</small></span></a>
+      <nav class="nav" aria-label="Navegação principal">
+        <a href="index.html">Início</a><a class="active" href="obras.html">Obras</a><a href="enviar.html">Enviar obra</a><a href="checar.html">Verificar</a>
+      </nav>
+    </div>
+  </header>
+  <main class="form-page">
+    <div class="container">
+      <div class="section-header">
+        <h2>Obras registradas</h2>
+        <p>Consulte os recursos educacionais registrados no PICTEC-REA.</p>
+      </div>
+      <div id="lista" class="cards" style="grid-template-columns: 1fr;"></div>
+    </div>
+  </main>
+  <footer class="site-footer"><div class="container">PICTEC-REA · Repositório Educacional Aberto</div></footer>
+  <script>
+    const lista = document.getElementById('lista');
+    async function carregar() {
+      try {
+        const resposta = await fetch('/api/obras');
+        const obras = await resposta.json();
+        if (!obras.length) {
+          lista.innerHTML = '<article class="card"><h3>Nenhuma obra registrada ainda.</h3><p>Envie a primeira obra para começar o repositório.</p><br><a class="button primary" href="enviar.html">Enviar obra</a></article>';
+          return;
+        }
+        lista.innerHTML = obras.map(obra => `
+          <article class="card">
+            <h3>${escapeHtml(obra.titulo)}</h3>
+            <p><strong>Autor:</strong> ${escapeHtml(obra.autor)}</p>
+            <p><strong>Versão:</strong> ${escapeHtml(obra.versao)}</p>
+            <p><strong>CID:</strong> ${escapeHtml(obra.cid)}</p>
+            <p><strong>SHA-256:</strong> ${escapeHtml(obra.sha256)}</p>
+            <p><strong>Registrada em:</strong> ${new Date(obra.criado_em).toLocaleString('pt-BR')}</p>
+          </article>`).join('');
+      } catch (error) {
+        lista.innerHTML = '<article class="card"><h3>Não foi possível carregar as obras.</h3><p>Verifique se o servidor está em execução.</p></article>';
+      }
+    }
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>'"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
+    }
+    carregar();
+  </script>
+</body>
+</html>

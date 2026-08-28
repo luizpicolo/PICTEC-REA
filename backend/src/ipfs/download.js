@@ -2,7 +2,7 @@ import { create } from 'kubo-rpc-client'
 import { writeFile } from 'node:fs/promises'
 
 const ipfs = create({
-  url: 'http://192.168.0.28:5001'
+  url: 'http://127.0.0.1:5001'
 })
 
 export async function downloadFromIPFS(cid, outputPath) {

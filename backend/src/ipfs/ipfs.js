@@ -2,7 +2,7 @@ import { create } from 'kubo-rpc-client'
 import { createReadStream } from 'node:fs'
 
 const client = create({
-  url: 'http://192.168.0.28:5001'
+  url: 'http://127.0.0.1:5001'
 })
 
 export async function uploadToIPFS(filePath) {
