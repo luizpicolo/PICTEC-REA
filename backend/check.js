@@ -28,7 +28,9 @@ export async function checkObra(req, res) {
     const hashArquivo = await sha256File(filePath)
 
     const obra = db
-      .prepare('SELECT * FROM obras WHERE sha256 = ? LIMIT 1')
+      .prepare(`SELECT obras.*, usuarios.chave_publica FROM obras
+        LEFT JOIN usuarios ON usuarios.id = obras.usuario_id
+        WHERE obras.sha256 = ? LIMIT 1`)
       .get(hashArquivo)
 
     if (!obra) {
@@ -62,7 +64,8 @@ export async function checkObra(req, res) {
 
     const assinatura = await verifyManifestSignature(
       manifestPath,
-      signaturePath
+      signaturePath,
+      obra.chave_publica || undefined
     )
 
     let timestamp = null
@@ -98,7 +101,8 @@ try {
       manifest.author === obra.autor &&
       manifest.version === obra.versao &&
       manifest.cid === obra.cid &&
-      manifest.sha256 === obra.sha256
+      manifest.sha256 === obra.sha256 &&
+      (!obra.chave_publica || manifest.publicKey === obra.chave_publica)
 
     const ipfs =
       hashIPFS === obra.sha256
@@ -229,4 +233,3 @@ function sendJson(res, status, data) {
 
   res.end(JSON.stringify(data))
 }
-

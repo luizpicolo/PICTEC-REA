@@ -24,8 +24,14 @@ formulario.addEventListener("submit", async (event) => {
   mostrarStatus("Processando o arquivo e criando o registro. Isso pode levar alguns segundos.", "loading");
 
   try {
+    const token = localStorage.getItem("pictec_token");
+    if (!token) {
+      window.location.href = "login.html";
+      return;
+    }
     const resposta = await fetch("/api/obras", {
       method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
       body: dados
     });
 
@@ -45,6 +51,11 @@ formulario.addEventListener("submit", async (event) => {
       <div>CID: ${retorno.cid ?? "—"}</div>
       <div>SHA-256: ${retorno.sha256 ?? "—"}</div>
       <div>Versão: ${retorno.versao ?? "—"}</div>
+      <div class="download-actions">
+        <a class="button secondary" href="/api/obras/${retorno.id}/download?fonte=local">Baixar cópia local</a>
+        <a class="button secondary" href="/api/obras/${retorno.id}/download?fonte=ipfs">Baixar do IPFS</a>
+        <a class="button primary" href="/api/obras/${retorno.id}/provas">Baixar pacote de prova</a>
+      </div>
     `;
     formulario.reset();
     document.getElementById("versao").value = "1.0.0";

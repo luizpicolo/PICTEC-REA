@@ -17,7 +17,7 @@
       <nav class="nav" aria-label="Navegação principal">
         <a href="index.html">Início</a>
         <a href="obras.html">Obras</a>
-        <a class="active" href="enviar.html">Enviar obra</a><a href="checar.html">Verificar</a>
+        <a class="active" href="enviar.html">Enviar obra</a><a href="checar.html">Verificar</a><a href="login.html">Entrar</a>
       </nav>
     </div>
   </header>
@@ -25,7 +25,8 @@
   <main class="form-page">
     <div class="container form-layout">
       <section class="form-card">
-        <h1>Enviar recurso educacional</h1>
+          <h1>Enviar recurso educacional</h1>
+          <p id="conta-ativa" class="file-help"></p>
         <p class="form-intro">Preencha os dados abaixo e selecione o arquivo que deseja registrar.</p>
 
         <form id="formulario-envio" enctype="multipart/form-data">
@@ -79,6 +80,12 @@
     <div class="container">PICTEC-REA · Repositório Educacional Aberto</div>
   </footer>
 
+  <script src="js/session.js"></script>
   <script src="js/enviar.js"></script>
+  <script>
+    const usuario = JSON.parse(localStorage.getItem('pictec_user') || 'null');
+    if (!usuario) location.replace('login.html');
+    else document.getElementById('conta-ativa').textContent = `Conta ativa: ${usuario.nome} (${usuario.email})`;
+  </script>
 </body>
 </html>

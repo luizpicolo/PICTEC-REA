@@ -1,6 +1,6 @@
 
 import Busboy from 'busboy'
-import { mkdir, writeFile, unlink } from 'node:fs/promises'
+import { mkdir, writeFile, unlink, rename } from 'node:fs/promises'
 import path from 'node:path'
 import { randomUUID } from 'node:crypto'
 
@@ -9,8 +9,10 @@ import { uploadToIPFS } from './src/ipfs/ipfs.js'
 import { createManifest } from './src/manifest/create.js'
 import { timestampHash } from './src/ots/timestamp.js'
 import db from './src/database/database.js'
+import { decryptPrivateKey } from './src/auth/auth.js'
 
 export async function createObra(req, res) {
+  if (!req.user) return send(res, 401, { erro: 'Faça login para enviar uma obra.' })
   const { fields, file } = await upload(req)
 
   if (!fields.titulo || !fields.autor || !file)
@@ -18,15 +20,19 @@ export async function createObra(req, res) {
 
   await mkdir('./uploads', { recursive: true })
   await mkdir('./records', { recursive: true })
+  await mkdir('./obras', { recursive: true })
 
   const id = randomUUID()
   const filePath = `./uploads/${id}`
   const manifestPath = `./records/${id}-manifest.json`
   const signaturePath = `./records/${id}-assinatura.sig`
   const otsPath = `./records/${id}-prova.ots`
+  const fileName = safeFileName(file.name)
+  const localPath = `./obras/${id}-${fileName}`
+  let storedLocally = false
 
   try {
-    await writeFile(filePath, file)
+    await writeFile(filePath, file.content)
 
     const sha256 = await sha256File(filePath)
     const ipfs = await uploadToIPFS(filePath)
@@ -38,7 +44,9 @@ export async function createObra(req, res) {
       sha256,
       version: fields.versao || '1.0.0',
       manifestPath,
-      signaturePath
+      signaturePath,
+      privateKey: decryptPrivateKey(req.user.chave_privada_cifrada),
+      publicKey: req.user.chave_publica
     })
 
     const manifestHash = await sha256File(manifestPath)
@@ -46,8 +54,8 @@ export async function createObra(req, res) {
 
     const result = db.prepare(`
       INSERT INTO obras
-      (titulo, autor, cid, sha256, versao, hash_manifesto, arquivo_timestamp, criado_em)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      (titulo, autor, cid, sha256, versao, hash_manifesto, arquivo_timestamp, criado_em, usuario_id, arquivo_local, nome_arquivo)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `).run(
       manifest.title,
       manifest.author,
@@ -56,8 +64,14 @@ export async function createObra(req, res) {
       manifest.version,
       manifestHash,
       timestamp.ots,
-      manifest.createdAt
+      manifest.createdAt,
+      req.user.id,
+      localPath,
+      fileName
     )
+
+    await rename(filePath, localPath)
+    storedLocally = true
 
     send(res, 201, {
       id: result.lastInsertRowid,
@@ -74,7 +88,7 @@ export async function createObra(req, res) {
     console.error(error)
     send(res, 500, { erro: error.message })
   } finally {
-    await unlink(filePath).catch(() => {})
+    if (!storedLocally) await unlink(filePath).catch(() => {})
   }
 }
 
@@ -85,10 +99,10 @@ function upload(req) {
     let file
 
     bb.on('field', (name, value) => fields[name] = value)
-    bb.on('file', (name, stream) => {
+    bb.on('file', (name, stream, info) => {
       const chunks = []
       stream.on('data', chunk => chunks.push(chunk))
-      stream.on('end', () => file = Buffer.concat(chunks))
+      stream.on('end', () => file = { content: Buffer.concat(chunks), name: info.filename })
     })
     bb.on('finish', () => resolve({ fields, file }))
     bb.on('error', reject)
@@ -97,10 +111,14 @@ function upload(req) {
   })
 }
 
+function safeFileName(name) {
+  const clean = path.basename(String(name || 'obra')).replace(/[^a-zA-Z0-9._-]/g, '_')
+  return clean || 'obra'
+}
+
 function send(res, status, data) {
   res.writeHead(status, {
     'Content-Type': 'application/json; charset=utf-8'
   })
   res.end(JSON.stringify(data))
 }
-

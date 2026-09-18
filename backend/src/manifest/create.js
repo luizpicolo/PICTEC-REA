@@ -8,7 +8,9 @@ export async function createManifest({
   sha256,
   version = '1.0.0',
   manifestPath = './manifest.json',
-  signaturePath = './assinatura.sig'
+  signaturePath = './assinatura.sig',
+  privateKey,
+  publicKey
 }) {
   const manifest = {
     title,
@@ -16,13 +18,13 @@ export async function createManifest({
     cid,
     sha256,
     version,
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
+    publicKey
   }
 
   await writeFile(manifestPath, JSON.stringify(manifest, null, 2), 'utf-8')
 
   const data = await readFile(manifestPath)
-  const privateKey = await readFile('./src/keys/private-key.pem', 'utf-8')
   const signature = sign(null, data, privateKey)
 
   await writeFile(signaturePath, signature.toString('base64'), 'utf-8')

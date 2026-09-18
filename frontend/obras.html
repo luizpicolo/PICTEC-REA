@@ -25,6 +25,7 @@
     </div>
   </main>
   <footer class="site-footer"><div class="container">PICTEC-REA · Repositório Educacional Aberto</div></footer>
+  <script src="js/session.js"></script>
   <script>
     const lista = document.getElementById('lista');
     async function carregar() {
@@ -43,6 +44,11 @@
             <p><strong>CID:</strong> ${escapeHtml(obra.cid)}</p>
             <p><strong>SHA-256:</strong> ${escapeHtml(obra.sha256)}</p>
             <p><strong>Registrada em:</strong> ${new Date(obra.criado_em).toLocaleString('pt-BR')}</p>
+            <div class="download-actions">
+              ${obra.tem_copia_local ? `<a class="button secondary" href="/api/obras/${obra.id}/download?fonte=local">Baixar cópia local</a>` : ''}
+              <a class="button secondary" href="/api/obras/${obra.id}/download?fonte=ipfs">Baixar do IPFS</a>
+              <a class="button primary" href="/api/obras/${obra.id}/provas">Baixar pacote de prova</a>
+            </div>
           </article>`).join('');
       } catch (error) {
         lista.innerHTML = '<article class="card"><h3>Não foi possível carregar as obras.</h3><p>Verifique se o servidor está em execução.</p></article>';
