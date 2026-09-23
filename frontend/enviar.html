@@ -41,6 +41,27 @@
               <input id="autor" name="autor" type="text" placeholder="Nome do autor ou autores" required maxlength="200">
             </label>
 
+            <label for="descricao">
+              Descrição
+              <textarea id="descricao" name="descricao" rows="5" maxlength="5000" required aria-describedby="descricao-ajuda" placeholder="Descreva o conteúdo, os objetivos e como usar o recurso."></textarea>
+              <span id="descricao-ajuda" class="file-help">Informe também os recursos assistivos disponíveis, como audiodescrição, legendas, Libras ou compatibilidade com leitor de tela. Essas palavras poderão ser encontradas na busca.</span>
+            </label>
+
+            <label for="materia">
+              Matéria
+              <select id="materia" name="materia" required><option value="">Selecione a matéria</option></select>
+            </label>
+
+            <label for="tipo">
+              Tipo de recurso
+              <select id="tipo" name="tipo" required><option value="">Selecione o tipo</option></select>
+            </label>
+
+            <label for="nivel_ensino">
+              Nível de ensino
+              <select id="nivel_ensino" name="nivel_ensino" required><option value="">Selecione o nível</option></select>
+            </label>
+
             <label for="versao">
               Versão
               <input id="versao" name="versao" type="text" value="1.0.0" placeholder="Ex.: 1.0.0" required maxlength="30">
@@ -49,6 +70,7 @@
             <label for="arquivo">
               Arquivo
               <input id="arquivo" name="arquivo" type="file" required>
+              <span id="formato-detectado" class="file-help">O formato será identificado automaticamente pelo arquivo.</span>
               <span class="file-help">Selecione o recurso educacional que será registrado.</span>
             </label>
           </div>
@@ -82,6 +104,7 @@
 
   <script src="js/session.js"></script>
   <script src="js/enviar.js"></script>
+  <script type="module" src="js/upload-metadata.mjs"></script>
   <script>
     const usuario = JSON.parse(localStorage.getItem('pictec_user') || 'null');
     if (!usuario) location.replace('login.html');

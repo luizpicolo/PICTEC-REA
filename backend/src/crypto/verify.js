@@ -4,11 +4,11 @@ import { verify } from 'node:crypto'
 export async function verifyManifestSignature(
   manifestPath = './manifest.json',
   signaturePath = './assinatura.sig',
-  publicKeyPath = './src/keys/public-key.pem'
+  publicKey
 ) {
   const manifest = await readFile(manifestPath)
   const signatureBase64 = await readFile(signaturePath, 'utf-8')
-  const publicKey = await readFile(publicKeyPath, 'utf-8')
+  const publicKeyPem = publicKey || await readFile('./src/keys/public-key.pem', 'utf-8')
 
   const signature = Buffer.from(
     signatureBase64.trim(),
@@ -18,7 +18,7 @@ export async function verifyManifestSignature(
   return verify(
     null,
     manifest,
-    publicKey,
+    publicKeyPem,
     signature
   )
 }

@@ -35,16 +35,22 @@ db.exec(`
   )
 `)
 
-// Compatibilidade com bancos criados antes da autenticação.
-const obraColumns = db.prepare('PRAGMA table_info(obras)').all().map(column => column.name)
-if (!obraColumns.includes('usuario_id')) {
-  db.exec('ALTER TABLE obras ADD COLUMN usuario_id INTEGER REFERENCES usuarios(id)')
-}
-if (!obraColumns.includes('arquivo_local')) {
-  db.exec('ALTER TABLE obras ADD COLUMN arquivo_local TEXT')
-}
-if (!obraColumns.includes('nome_arquivo')) {
-  db.exec('ALTER TABLE obras ADD COLUMN nome_arquivo TEXT')
-}
+// Migração atômica para preservar registros e evitar concorrência na inicialização.
+db.transaction(() => {
+  const columns = new Set(db.prepare('PRAGMA table_info(obras)').all().map(column => column.name))
+  const additions = {
+    usuario_id: 'INTEGER REFERENCES usuarios(id)',
+    arquivo_local: 'TEXT',
+    nome_arquivo: 'TEXT',
+    descricao: "TEXT NOT NULL DEFAULT ''",
+    materia: "TEXT NOT NULL DEFAULT ''",
+    formato: "TEXT NOT NULL DEFAULT ''",
+    tipo: "TEXT NOT NULL DEFAULT ''",
+    nivel_ensino: "TEXT NOT NULL DEFAULT ''"
+  }
+  for (const [column, definition] of Object.entries(additions)) {
+    if (!columns.has(column)) db.exec(`ALTER TABLE obras ADD COLUMN ${column} ${definition}`)
+  }
+}).immediate()
 
 export default db

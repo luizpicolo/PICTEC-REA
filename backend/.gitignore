@@ -4,3 +4,7 @@ database.db
 .local-secrets/
 src/keys/private-key.pem
 records/
+obras/
+uploads/*
+!uploads/.gitkeep
+database.db-*

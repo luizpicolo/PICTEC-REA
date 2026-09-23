@@ -1,3 +1,4 @@
+import { readMetadata } from '../frontend/js/catalog.mjs'
 
 import Busboy from 'busboy'
 import { mkdir, writeFile, unlink, rename } from 'node:fs/promises'
@@ -17,6 +18,13 @@ export async function createObra(req, res) {
 
   if (!fields.titulo || !fields.autor || !file)
     return send(res, 400, { erro: 'Preencha título, autor e selecione um arquivo.' })
+
+  let metadata
+  try {
+    metadata = readMetadata(fields, file.name)
+  } catch (error) {
+    return send(res, 400, { erro: error.message })
+  }
 
   await mkdir('./uploads', { recursive: true })
   await mkdir('./records', { recursive: true })
@@ -38,6 +46,7 @@ export async function createObra(req, res) {
     const ipfs = await uploadToIPFS(filePath)
 
     const manifest = await createManifest({
+      metadata,
       title: fields.titulo,
       author: fields.autor,
       cid: ipfs.cid,
@@ -54,8 +63,8 @@ export async function createObra(req, res) {
 
     const result = db.prepare(`
       INSERT INTO obras
-      (titulo, autor, cid, sha256, versao, hash_manifesto, arquivo_timestamp, criado_em, usuario_id, arquivo_local, nome_arquivo)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      (titulo, autor, cid, sha256, versao, hash_manifesto, arquivo_timestamp, criado_em, usuario_id, arquivo_local, nome_arquivo, descricao, materia, formato, tipo, nivel_ensino)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `).run(
       manifest.title,
       manifest.author,
@@ -67,7 +76,12 @@ export async function createObra(req, res) {
       manifest.createdAt,
       req.user.id,
       localPath,
-      fileName
+      fileName,
+      metadata.descricao,
+      metadata.materia,
+      metadata.formato,
+      metadata.tipo,
+      metadata.nivel_ensino
     )
 
     await rename(filePath, localPath)

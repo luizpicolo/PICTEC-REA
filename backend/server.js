@@ -1,3 +1,4 @@
+import { fileFormat, matchesResource } from '../frontend/js/catalog.mjs'
 import http from 'node:http'
 import { stat, unlink, readFile } from 'node:fs/promises'
 import { createReadStream } from 'node:fs'
@@ -15,6 +16,7 @@ const frontend = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', '
 const mime = {
   '.html': 'text/html; charset=utf-8',
   '.css': 'text/css; charset=utf-8',
+  '.mjs': 'text/javascript; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
   '.png': 'image/png',
   '.jpg': 'image/jpeg',
@@ -35,9 +37,14 @@ const server = http.createServer(async (req, res) => {
     return user ? json(res, 200, { usuario: publicUser(user) }) : json(res, 401, { erro: 'Sessão inválida ou expirada.' })
   }
   if (req.method === 'GET' && url.pathname === '/api/obras') {
-    return json(res, 200, db.prepare(`SELECT obras.id, obras.titulo, obras.autor, obras.versao, obras.cid,
+    const obras = db.prepare(`SELECT obras.id, obras.titulo, obras.autor, obras.versao, obras.cid,
+      obras.descricao, obras.materia, obras.formato, obras.tipo, obras.nivel_ensino, obras.nome_arquivo,
       obras.sha256, obras.criado_em, obras.arquivo_local IS NOT NULL AS tem_copia_local, usuarios.nome AS usuario_nome FROM obras
-      LEFT JOIN usuarios ON usuarios.id = obras.usuario_id ORDER BY obras.id DESC`).all())
+      LEFT JOIN usuarios ON usuarios.id = obras.usuario_id ORDER BY obras.id DESC`).all().map(obra => ({
+        ...obra,
+        formato: obra.formato || (obra.nome_arquivo ? fileFormat(obra.nome_arquivo) : '')
+      }))
+    return json(res, 200, obras.filter(obra => matchesResource(obra, url.searchParams)))
   }
   if (req.method === 'POST' && url.pathname === '/api/obras') {
     req.user = userFromRequest(req)
@@ -173,4 +180,5 @@ async function downloadProofPackage(res, obra) {
   await archive.finalize()
 }
 
-server.listen(3000, () => console.log('PICTEC-REA em http://localhost:3000'))
+const port = Number(process.env.PORT || 3000)
+server.listen(port, () => console.log(`PICTEC-REA em http://localhost:${port}`))

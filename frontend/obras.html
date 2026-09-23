@@ -21,43 +21,27 @@
         <h2>Obras registradas</h2>
         <p>Consulte os recursos educacionais registrados no PICTEC-REA.</p>
       </div>
-      <div id="lista" class="cards" style="grid-template-columns: 1fr;"></div>
+      <form id="catalog-form" action="obras.html" method="get" role="search">
+        <label for="catalog-query">Buscar recursos</label>
+        <div class="catalog-search">
+          <input type="search" id="catalog-query" name="q" placeholder="Título, autor, descrição, legendas, Libras..." aria-describedby="search-help">
+          <button class="button primary" type="submit">Buscar</button>
+        </div>
+        <p id="search-help" class="file-help">Encontre recursos assistivos pelas palavras usadas na descrição do material.</p>
+        <div class="catalog-filters">
+          <label>Matéria<select name="materia"><option value="">Todas as matérias</option></select></label>
+          <label>Formato do arquivo<select name="formato"><option value="">Todos os formatos</option></select></label>
+          <label>Tipo de recurso<select name="tipo"><option value="">Todos os tipos</option></select></label>
+          <label>Nível de ensino<select name="nivel_ensino"><option value="">Todos os níveis</option></select></label>
+        </div>
+        <button class="button secondary" type="reset">Limpar busca e filtros</button>
+      </form>
+      <p id="catalog-status" class="catalog-status" role="status"></p>
+      <div id="lista" class="cards catalog-results" aria-busy="true"></div>
     </div>
   </main>
   <footer class="site-footer"><div class="container">PICTEC-REA · Repositório Educacional Aberto</div></footer>
   <script src="js/session.js"></script>
-  <script>
-    const lista = document.getElementById('lista');
-    async function carregar() {
-      try {
-        const resposta = await fetch('/api/obras');
-        const obras = await resposta.json();
-        if (!obras.length) {
-          lista.innerHTML = '<article class="card"><h3>Nenhuma obra registrada ainda.</h3><p>Envie a primeira obra para começar o repositório.</p><br><a class="button primary" href="enviar.html">Enviar obra</a></article>';
-          return;
-        }
-        lista.innerHTML = obras.map(obra => `
-          <article class="card">
-            <h3>${escapeHtml(obra.titulo)}</h3>
-            <p><strong>Autor:</strong> ${escapeHtml(obra.autor)}</p>
-            <p><strong>Versão:</strong> ${escapeHtml(obra.versao)}</p>
-            <p><strong>CID:</strong> ${escapeHtml(obra.cid)}</p>
-            <p><strong>SHA-256:</strong> ${escapeHtml(obra.sha256)}</p>
-            <p><strong>Registrada em:</strong> ${new Date(obra.criado_em).toLocaleString('pt-BR')}</p>
-            <div class="download-actions">
-              ${obra.tem_copia_local ? `<a class="button secondary" href="/api/obras/${obra.id}/download?fonte=local">Baixar cópia local</a>` : ''}
-              <a class="button secondary" href="/api/obras/${obra.id}/download?fonte=ipfs">Baixar do IPFS</a>
-              <a class="button primary" href="/api/obras/${obra.id}/provas">Baixar pacote de prova</a>
-            </div>
-          </article>`).join('');
-      } catch (error) {
-        lista.innerHTML = '<article class="card"><h3>Não foi possível carregar as obras.</h3><p>Verifique se o servidor está em execução.</p></article>';
-      }
-    }
-    function escapeHtml(value) {
-      return String(value ?? '').replace(/[&<>'"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
-    }
-    carregar();
-  </script>
+  <script type="module" src="js/obras.mjs"></script>
 </body>
 </html>

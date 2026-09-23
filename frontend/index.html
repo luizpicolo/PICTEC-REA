@@ -1,87 +1,233 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="PICTEC-REA — Repositório Educacional Aberto com preservação e verificação de recursos educacionais.">
-  <title>PICTEC-REA | Repositório Educacional Aberto</title>
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="index.html" aria-label="REA- Início">
-        <span class="brand-mark"></span>
-        <span>PICTEC-REA<small>Repositório Educacional Aberto</small></span>
-      </a>
-      <nav class="nav" aria-label="Navegação principal">
-        <a class="active" href="index.html">Início</a>
-        <a href="obras.html">Obras</a>
-        <a href="enviar.html">Enviar obra</a><a href="checar.html">Verificar</a><a href="login.html">Entrar</a>
-      </nav>
-    </div>
-  </header>
-
-  <main>
-    <section class="hero">
-      <div class="container hero-grid">
-        <div>
-          <span class="eyebrow">RECURSOS EDUCACIONAIS ABERTO ASSISTIVOS</span>
-          <h1>Compartilhe conhecimento. Preserve sua autoria.</h1>
-          <p>
-            O PICTEC-REA é uma plataforma para armazenar, compartilhar e verificar
-            recursos educacionais abertos, usando tecnologias que ajudam a garantir
-            a integridade e a rastreabilidade dos arquivos.
-          </p>
-          <div class="actions">
-            <a class="button primary" href="obras.html">Explorar obras</a>
-            <a class="button secondary" href="enviar.html">Enviar uma obra</a>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Descubra, adapte e compartilhe recursos educacionais abertos. Educação aberta para mais futuros.">
+    <title>PICTEC / REA — Ideias para aprender</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/home.css">
+  </head>
+  <body class="home">
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <svg class="svg-library" aria-hidden="true">
+      <symbol id="search" viewBox="0 0 32 32"><circle cx="13" cy="13" r="9"/><path d="m20 20 8 8"/></symbol>
+      <symbol id="document" viewBox="0 0 48 48"><path d="M10 3h20l9 10v32H10z M29 3v11h10 M17 22h15 M17 29h15 M17 36h9"/></symbol>
+      <symbol id="shield" viewBox="0 0 48 48"><path d="M24 3c6 5 12 6 18 6v14c0 11-8 18-18 23C14 41 6 34 6 23V9c6 0 12-1 18-6Z M16 24l6 6 12-14"/></symbol>
+      <symbol id="clock" viewBox="0 0 48 48"><circle cx="24" cy="24" r="20"/><path d="M24 10v15h12"/></symbol>
+      <symbol id="cubes" viewBox="0 0 48 48"><path d="m24 2 11 6v13l-11 6-11-6V8z m-11 6 11 6 11-6 M24 14v13 M13 21 2 27v13l11 6 11-6V27 M2 27l11 6 11-6 M13 33v13 M35 21l11 6v13l-11 6-11-6 M24 27l11 6 11-6 M35 33v13"/></symbol>
+      <symbol id="leaf" viewBox="0 0 48 48"><path d="M24 45V21 M24 32C7 34 4 23 6 12c13 0 20 7 18 20Z M24 24C21 10 31 4 42 3c2 14-4 23-18 21Z M12 19l12 13 M24 24 35 12"/></symbol>
+      <symbol id="flask" viewBox="0 0 48 48"><path d="M17 4h14 M20 4v17L8 40q-2 4 3 4h26q5 0 3-4L28 21V4 M15 31h18"/></symbol>
+      <symbol id="temple" viewBox="0 0 48 48"><path d="m3 14 21-11 21 11H3z M5 44h38 M9 14v30 M18 14v30 M30 14v30 M39 14v30"/></symbol>
+    </svg>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="wordmark" href="index.html" aria-label="PICTEC REA — início">PICTEC / REA <span>Educação aberta<br>para mais futuros</span></a>
+        <nav class="nav" aria-label="Navegação principal">
+          <a href="obras.html">Explorar</a>
+          <a href="#como-funciona">Como funciona</a>
+          <a href="#sobre">Sobre</a>
+          <a class="login-link" href="login.html">Entrar</a>
+          <a class="publish-link" href="enviar.html">Publicar REA</a>
+        </nav>
+      </div>
+    </header>
+    <main id="conteudo">
+      <section class="home-hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="kicker">Recursos educacionais abertos</p>
+          <h1 id="hero-title">Ideias para<br>aprender.<br>Liberdade para<br><em class="underline coral">compartilhar.</em></h1>
+          <p class="hero-description">Descubra, adapte e compartilhe<br> recursos educacionais pensados<br> para diferentes formas de aprender.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="obras.html"><svg><use href="#search"/></svg>Explorar recursos</a>
+            <a class="button secondary" href="#como-funciona">Saiba como funciona</a>
+          </div>
+          <div class="hero-bottom">
+            <p class="micro">Mais conhecimento.<br>Mais pessoas.<br>Mais futuros. <span>―</span></p>
+            <span class="hand-stamp">educação<br>como bem<br>comum</span>
           </div>
         </div>
-
-        <aside class="hero-card" aria-label="Tecnologias utilizadas">
-          <h3>Como protegemos o registro?</h3>
-          <div class="tech-list">
-            <div class="tech-item"><strong>IPFS</strong><span>Armazenamento distribuído do recurso.</span></div>
-            <div class="tech-item"><strong>SHA-256</strong><span>Identificação e verificação da integridade do arquivo.</span></div>
-            <div class="tech-item"><strong>Manifesto + assinatura</strong><span>Registro dos metadados e autenticidade.</span></div>
-            <div class="tech-item"><strong>Timestamp</strong><span>Prova temporal associada ao registro.</span></div>
+        <div class="hero-art real-book-photo">
+          <img src="https://i.pinimg.com/1200x/64/71/41/647141d5dfcd888dfbff29b5bcd2fd95.jpg" alt="Fotografia de um livro aberto com ilustrações botânicas, flores e uma tesoura, por cottonbro studio no Pexels." fetchpriority="high">
+          <span class="art-caption micro">Aberto<br>Mais pessoas<br>Mais ideias<br>Mais possibilidades<br>―</span>
+          <div class="paper-note">
+            Áudio ·
+            <br>
+            legendas ·
+            <br>
+            leitura
+            <br>
+            acessível
           </div>
-        </aside>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <div class="section-header">
-          <h2>Uma camada de confiança para recursos educacionais</h2>
-          <p>O sistema combina diferentes tecnologias para tornar o registro mais verificável e transparente.</p>
+          <div class="book-quote">
+            Aprender
+            <br>
+            também
+            <br>
+            é um ato
+            <br>
+            de compartilhar.
+            <span>―</span>
+          </div>
+          <span class="art-star" aria-hidden="true">✳</span>
         </div>
-        <div class="cards">
-          <article class="card"><div class="card-icon">📁</div><h3>Armazenamento</h3><p>O arquivo pode ser enviado para uma rede distribuída por meio do IPFS.</p></article>
-          <article class="card"><div class="card-icon">🔐</div><h3>Integridade</h3><p>O SHA-256 permite comparar o arquivo e identificar alterações em seu conteúdo.</p></article>
-          <article class="card"><div class="card-icon">🧾</div><h3>Manifesto</h3><p>Metadados como título, autor, versão, CID e hash ficam organizados em um registro.</p></article>
-          <article class="card"><div class="card-icon">⏱️</div><h3>Prova temporal</h3><p>Um timestamp associa o registro a uma referência temporal verificável.</p></article>
-        </div>
+      </section>
+      <div class="ticker" aria-hidden="true">
+        <span>Aberto para aprender</span>
+        <b>
+          ✱
+        </b>
+        <span>Livre para compartilhar</span>
+        <b>
+          ✱
+        </b>
+        <span>Aberto para aprender</span>
+        <b>
+          ✱
+        </b>
+        <span>Livre para compartilhar</span>
+        <b>
+          ✱
+        </b>
+        <span>Aberto para aprender</span>
       </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <div class="cta">
+      <section class="discover container" aria-labelledby="discover-title">
+        <p class="kicker">Encontre recursos educacionais abertos</p>
+        <h2 id="discover-title">O que você quer <em class="underline yellow">descobrir</em> hoje?</h2>
+        <form class="search-form" action="obras.html" method="get" role="search">
+          <svg aria-hidden="true">
+            <use href="#search"/>
+          </svg>
+          <label class="sr-only" for="resource-search">Buscar recursos por palavras-chave</label>
+          <input id="resource-search" name="q" type="search" placeholder="Busque por temas, disciplinas, formatos...">
+          <button type="submit">Buscar</button>
+        </form>
+        <nav class="topics" aria-label="Explorar por tema">
+          <a href="obras.html?materia=Matemática"><span class="math-icon">∑</span>Matemática</a>
+          <a href="obras.html?materia=Biologia"><svg class="green"><use href="#leaf"/></svg>Biologia</a>
+          <a href="obras.html?materia=Programação"><span class="code-icon">&lt;/&gt;</span>Programação</a>
+          <a href="obras.html?materia=História"><svg class="orange"><use href="#temple"/></svg>História</a>
+          <a href="obras.html?materia=Química"><svg class="blue"><use href="#flask"/></svg>Química</a>
+          <a class="all-topics" href="obras.html">Ver todos<br>os temas <span>⟶</span></a>
+        </nav>
+      </section>
+      <section class="mission" id="sobre">
+        <div class="container mission-grid">
           <div>
-            <strong>Tem um recurso educacional para compartilhar?</strong>
-            <p>Envie o arquivo e registre seus metadados no PICTEC-REA.</p>
+            <p class="kicker">Infraestrutura aberta. Confiança real.</p>
+            <h2>Conhecimento<br>aberto.<br><span>Aprendizado <em class="underline coral">acessível.</em></span></h2>
+            <p class="mission-description">Recursos educacionais abertos que respeitam diferentes formas de aprender. Autoria e integridade podem ser verificadas por SHA-256 e IPFS.</p>
           </div>
-          <a class="button" href="enviar.html">Enviar uma obra</a>
+          <ol class="mission-steps">
+            <li>
+              <span>01</span>
+              <div>
+                <h3>Encontrar</h3>
+                <p>Busque e descubra<br>recursos abertos.</p>
+              </div>
+            </li>
+            <li>
+              <span>02</span>
+              <div>
+                <h3>Adaptar</h3>
+                <p>Ajuste para as suas<br>necessidades de aprendizado.</p>
+              </div>
+            </li>
+            <li>
+              <span>03</span>
+              <div>
+                <h3>Compartilhar</h3>
+                <p>Publique e ajude mais<br>pessoas a aprender.</p>
+              </div>
+            </li>
+          </ol>
+          <div class="mission-foot micro">
+            <span>Educação aberta <b>✱</b> Sociedade mais justa</span>
+            <span>Ideias circulam. Impactos multiplicam.</span>
+          </div>
+          <span class="little-note">mesmo conhecimento<br>mais futuros <b>✱</b></span>
         </div>
+      </section>
+      <section class="protection" aria-labelledby="protection-title">
+        <div class="container">
+          <div class="protection-heading">
+            <h2 id="protection-title">Como protegemos <span class="underline yellow">o registro?</span></h2>
+            <p class="micro">Transparência<br>Integridade<br>Acesso contínuo</p>
+          </div>
+          <div class="protection-grid">
+            <article>
+              <span class="icon-disc sky"><svg><use href="#cubes"/></svg></span>
+              <div>
+                <h3>IPFS</h3>
+                <p>Armazenamento distribuído do recurso.</p>
+              </div>
+            </article>
+            <article>
+              <span class="icon-disc blush"><svg><use href="#document"/></svg></span>
+              <div>
+                <h3>SHA-256</h3>
+                <p>Identificação e verificação da<br>integridade do arquivo.</p>
+              </div>
+            </article>
+            <article>
+              <span class="icon-disc butter"><svg><use href="#shield"/></svg></span>
+              <div>
+                <h3>Manifesto + assinatura</h3>
+                <p>Registro dos metadados e autenticidade.</p>
+              </div>
+            </article>
+            <article>
+              <span class="icon-disc mint"><svg><use href="#clock"/></svg></span>
+              <div>
+                <h3>Timestamp</h3>
+                <p>Prova temporal associada ao registro.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+      <section class="circulation" id="como-funciona">
+        <div class="container">
+          <div class="flow-heading">
+            <h2>Como um recurso circula no PICTEC REA</h2>
+            <p>Do seu computador para o mundo, com integridade.</p>
+          </div>
+          <ol class="flow">
+            <li>
+              <span class="icon-disc"><svg><use href="#document"/></svg></span>
+              <h3>Recurso</h3>
+              <p>Você publica um material<br>(qualquer formato).</p>
+            </li>
+            <li>
+              <span class="format-label">Formato acessível</span>
+              <p>Disponível em diferentes<br>formatos (texto, áudio,<br>legendas, etc.).</p>
+            </li>
+            <li>
+              <span class="icon-disc"><svg><use href="#cubes"/></svg></span>
+              <h3>Compartilhamento</h3>
+              <p>O recurso é distribuído<br>no IPFS (rede global).</p>
+            </li>
+            <li>
+              <a href="checar.html" class="verify-link"><span class="icon-disc"><svg><use href="#document"/></svg><b>✓</b></span><h3>Verificação</h3></a>
+              <p>Qualquer pessoa pode<br>conferir a integridade<br>do recurso.</p>
+            </li>
+          </ol>
+        </div>
+      </section>
+    </main>
+    <footer class="home-footer">
+      <div class="container">
+        <a class="wordmark" href="index.html">PICTEC / REA</a>
+        <p>Educação aberta para mais futuros.</p>
+        <nav aria-label="Navegação do rodapé">
+          <a href="obras.html">Explorar</a>
+          <a href="#como-funciona">Como funciona</a>
+          <a href="#sobre">Sobre</a>
+          <a href="checar.html">Verificar recurso ↗</a>
+        </nav>
       </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">PICTEC-REA · Repositório Educacional Aberto</div>
-  </footer>
-  <script src="js/session.js"></script>
-</body>
+    </footer>
+    <script src="js/session.js">
+    </script>
+  </body>
 </html>

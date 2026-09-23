@@ -2,6 +2,7 @@ import { readFile, writeFile } from 'node:fs/promises'
 import { sign } from 'node:crypto'
 
 export async function createManifest({
+  metadata,
   title,
   author,
   cid,
@@ -19,7 +20,8 @@ export async function createManifest({
     sha256,
     version,
     createdAt: new Date().toISOString(),
-    publicKey
+    publicKey,
+    ...(metadata ? { educationalMetadata: metadata } : {})
   }
 
   await writeFile(manifestPath, JSON.stringify(manifest, null, 2), 'utf-8')
