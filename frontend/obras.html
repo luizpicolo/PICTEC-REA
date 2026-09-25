@@ -1,47 +1,133 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Obras | PICTEC-REA</title>
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="index.html"><span class="brand-mark">PR</span><span>PICTEC-REA<small>Repositório Educacional Aberto</small></span></a>
-      <nav class="nav" aria-label="Navegação principal">
-        <a href="index.html">Início</a><a class="active" href="obras.html">Obras</a><a href="enviar.html">Enviar obra</a><a href="checar.html">Verificar</a>
-      </nav>
-    </div>
-  </header>
-  <main class="form-page">
-    <div class="container">
-      <div class="section-header">
-        <h2>Obras registradas</h2>
-        <p>Consulte os recursos educacionais registrados no PICTEC-REA.</p>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Descubra recursos educacionais abertos para diferentes formas de aprender.">
+    <title>Explorar recursos | PICTEC / REA</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/explorar.css">
+    <link rel="stylesheet" href="css/header.css">
+  </head>
+  <body class="explore">
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <header class="site-header shared-header">
+      <div class="container header-inner">
+        <a class="wordmark" href="index.html" aria-label="PICTEC REA — início">
+          PICTEC / REA
+          <span>Educação aberta<br>para mais futuros</span>
+        </a>
+        <nav class="nav" aria-label="Navegação principal">
+          <a aria-current="page" href="obras.html">Explorar</a>
+          <a href="index.html#como-funciona">Como funciona</a>
+          <a href="checar.html">Verificar</a>
+          <a class="login-link" href="login.html">Entrar</a>
+          <a class="publish-link" href="enviar.html">Publicar REA</a>
+        </nav>
       </div>
-      <form id="catalog-form" action="obras.html" method="get" role="search">
-        <label for="catalog-query">Buscar recursos</label>
-        <div class="catalog-search">
-          <input type="search" id="catalog-query" name="q" placeholder="Título, autor, descrição, legendas, Libras..." aria-describedby="search-help">
-          <button class="button primary" type="submit">Buscar</button>
+    </header>
+    <main id="conteudo">
+      <section class="explore-hero" aria-labelledby="explore-title">
+        <div class="container">
+          <h1 id="explore-title">Explorar <em>recursos</em></h1>
         </div>
-        <p id="search-help" class="file-help">Encontre recursos assistivos pelas palavras usadas na descrição do material.</p>
-        <div class="catalog-filters">
-          <label>Matéria<select name="materia"><option value="">Todas as matérias</option></select></label>
-          <label>Formato do arquivo<select name="formato"><option value="">Todos os formatos</option></select></label>
-          <label>Tipo de recurso<select name="tipo"><option value="">Todos os tipos</option></select></label>
-          <label>Nível de ensino<select name="nivel_ensino"><option value="">Todos os níveis</option></select></label>
-        </div>
-        <button class="button secondary" type="reset">Limpar busca e filtros</button>
-      </form>
-      <p id="catalog-status" class="catalog-status" role="status"></p>
-      <div id="lista" class="cards catalog-results" aria-busy="true"></div>
-    </div>
-  </main>
-  <footer class="site-footer"><div class="container">PICTEC-REA · Repositório Educacional Aberto</div></footer>
-  <script src="js/session.js"></script>
-  <script type="module" src="js/obras.mjs"></script>
-</body>
+      </section>
+      <div class="container catalog-container">
+        <form id="catalog-form" action="obras.html" method="get" role="search">
+          <section class="discovery" aria-labelledby="discovery-title">
+            <h2 id="discovery-title">O que você quer <em>descobrir</em> hoje?</h2>
+            <label class="sr-only" for="catalog-query">Buscar recursos</label>
+            <div class="catalog-search">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="10" cy="10" r="7"/>
+                <path d="m15 15 6 6"/>
+              </svg>
+              <input
+                type="search"
+                id="catalog-query"
+                name="q"
+                placeholder="Busque por temas, formatos ou recursos de acessibilidade..."
+                aria-describedby="search-help"
+              >
+              <button class="button primary" type="submit">Buscar</button>
+            </div>
+            <p id="search-help">Encontre materiais para diferentes formas de ensinar e aprender.</p>
+            <div class="accessibility-shortcuts" aria-label="Buscar recursos de acessibilidade">
+              <button type="button" data-query="audiodescrição">
+                <span aria-hidden="true">◖◗</span>Audiodescrição
+              </button>
+              <button type="button" data-query="Libras">
+                <span aria-hidden="true">Li</span>Libras
+              </button>
+              <button type="button" data-query="legendas">
+                <span class="cc" aria-hidden="true">CC</span>Legendas
+              </button>
+              <button type="button" data-query="texto simplificado">
+                <span aria-hidden="true">Aa</span>Texto simplificado
+              </button>
+              <button type="button" data-query="alto contraste">
+                <span aria-hidden="true">◐</span>Alto contraste
+              </button>
+              <button type="reset">Ver todos <span aria-hidden="true">→</span></button>
+            </div>
+          </section>
+          <div class="catalog-layout">
+            <aside class="filter-sidebar" aria-labelledby="filter-title">
+              <h2 id="filter-title">Filtrar por</h2>
+              <div class="catalog-filters">
+                <label>
+                  Tipo de recurso
+                  <select name="tipo">
+                    <option value="">Todos os tipos</option>
+                  </select>
+                </label>
+                <label>
+                  Formato
+                  <select name="formato">
+                    <option value="">Todos os formatos</option>
+                  </select>
+                </label>
+                <label>
+                  Nível de ensino
+                  <select name="nivel_ensino">
+                    <option value="">Todos os níveis</option>
+                  </select>
+                </label>
+                <label>
+                  Matéria
+                  <select name="materia">
+                    <option value="">Todas as matérias</option>
+                  </select>
+                </label>
+              </div>
+              <button class="button secondary clear-filters" type="reset">Limpar filtros</button>
+          
+            </aside>
+            <section class="results-section" aria-label="Recursos encontrados">
+              <div class="results-heading">
+                <p id="catalog-status" class="catalog-status" role="status"></p>
+                <label class="sort-label" for="catalog-sort">
+                  Ordenar por:
+                  <select id="catalog-sort">
+                    <option value="recent">Mais recentes</option>
+                    <option value="oldest">Mais antigos</option>
+                    <option value="title">Título A–Z</option>
+                  </select>
+                </label>
+              </div>
+              <div id="lista" class="cards catalog-results" aria-busy="true"></div>
+            </section>
+          </div>
+        </form>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <div class="container">
+        <span>PICTEC / REA</span>
+        <p>Livre para aprender. Livre para compartilhar.</p>
+      </div>
+    </footer>
+    <script src="js/session.js"></script>
+    <script type="module" src="js/obras.mjs"></script>
+  </body>
 </html>

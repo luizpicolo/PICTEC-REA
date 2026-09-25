@@ -7,6 +7,7 @@
     <title>PICTEC / REA — Ideias para aprender</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/header.css">
   </head>
   <body class="home">
     <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
@@ -20,13 +21,16 @@
       <symbol id="flask" viewBox="0 0 48 48"><path d="M17 4h14 M20 4v17L8 40q-2 4 3 4h26q5 0 3-4L28 21V4 M15 31h18"/></symbol>
       <symbol id="temple" viewBox="0 0 48 48"><path d="m3 14 21-11 21 11H3z M5 44h38 M9 14v30 M18 14v30 M30 14v30 M39 14v30"/></symbol>
     </svg>
-    <header class="site-header">
+    <header class="site-header shared-header">
       <div class="container header-inner">
-        <a class="wordmark" href="index.html" aria-label="PICTEC REA — início">PICTEC / REA <span>Educação aberta<br>para mais futuros</span></a>
+        <a class="wordmark" href="index.html" aria-label="PICTEC REA — início">
+          PICTEC / REA
+          <span>Educação aberta<br>para mais futuros</span>
+        </a>
         <nav class="nav" aria-label="Navegação principal">
           <a href="obras.html">Explorar</a>
-          <a href="#como-funciona">Como funciona</a>
-          <a href="#sobre">Sobre</a>
+          <a href="index.html#como-funciona">Como funciona</a>
+          <a href="checar.html">Verificar</a>
           <a class="login-link" href="login.html">Entrar</a>
           <a class="publish-link" href="enviar.html">Publicar REA</a>
         </nav>
@@ -103,11 +107,11 @@
           <button type="submit">Buscar</button>
         </form>
         <nav class="topics" aria-label="Explorar por tema">
-          <a href="obras.html?materia=Matemática"><span class="math-icon">∑</span>Matemática</a>
-          <a href="obras.html?materia=Biologia"><svg class="green"><use href="#leaf"/></svg>Biologia</a>
-          <a href="obras.html?materia=Programação"><span class="code-icon">&lt;/&gt;</span>Programação</a>
-          <a href="obras.html?materia=História"><svg class="orange"><use href="#temple"/></svg>História</a>
-          <a href="obras.html?materia=Química"><svg class="blue"><use href="#flask"/></svg>Química</a>
+          <a href="obras.html?q=Matemática"><span class="math-icon">∑</span>Matemática</a>
+          <a href="obras.html?q=Biologia"><svg class="green"><use href="#leaf"/></svg>Biologia</a>
+          <a href="obras.html?q=Programação"><span class="code-icon">&lt;/&gt;</span>Programação</a>
+          <a href="obras.html?q=História"><svg class="orange"><use href="#temple"/></svg>História</a>
+          <a href="obras.html?q=Química"><svg class="blue"><use href="#flask"/></svg>Química</a>
           <a class="all-topics" href="obras.html">Ver todos<br>os temas <span>⟶</span></a>
         </nav>
       </section>

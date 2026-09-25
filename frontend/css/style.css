@@ -386,6 +386,10 @@ input:focus {
 }
 
 @media (max-width: 850px) {
+  .form-layout, .auth-layout {
+    grid-template-columns: 1fr;
+  }
+
   .cards {
     grid-template-columns: repeat(2, 1fr);
   }

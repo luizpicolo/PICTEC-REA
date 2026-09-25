@@ -3,6 +3,7 @@ import { catalogOptions, fileFormat, matchesResource } from './catalog.mjs';
 const form = document.getElementById('catalog-form');
 const list = document.getElementById('lista');
 const status = document.getElementById('catalog-status');
+const sort = document.getElementById('catalog-sort');
 let resources = null;
 
 for (const [name, values] of Object.entries(catalogOptions)) {
@@ -52,18 +53,22 @@ function render() {
   if (!resources) return;
   const filters = currentFilters();
   const results = resources.filter(resource => matchesResource(resource, filters));
-  status.textContent = `${results.length} recurso(s) encontrado(s)${filters.size ? ' com a busca e os filtros selecionados' : ''}.`;
+  results.sort((a, b) => sort.value === 'title'
+    ? String(a.titulo ?? '').localeCompare(String(b.titulo ?? ''), 'pt-BR')
+    : (sort.value === 'oldest' ? 1 : -1) * ((Date.parse(a.criado_em) || 0) - (Date.parse(b.criado_em) || 0)));
+  status.textContent = `Encontramos ${results.length} ${results.length === 1 ? 'recurso' : 'recursos'}`;
   if (!results.length) {
     list.innerHTML = filters.size
       ? '<article class="card"><h3>Nenhum recurso encontrado.</h3><p>Tente outras palavras ou limpe os filtros acima.</p></article>'
       : '<article class="card"><h3>Nenhuma obra registrada ainda.</h3><p>Compartilhe o primeiro recurso.</p><a class="button primary" href="enviar.html">Publicar recurso</a></article>';
     return;
   }
-  list.innerHTML = results.map(resource => {
+  list.innerHTML = results.map((resource, index) => {
     const id = encodeURIComponent(resource.id);
     return `<article class="card">
+      <div class="resource-cover" data-tone="${index % 4}" aria-hidden="true"><small>Conhecimento aberto</small><strong>${escapeHtml(resource.materia || 'Educação')}</strong></div>
       <h3>${escapeHtml(resource.titulo)}</h3>
-      <p><strong>Autor:</strong> ${escapeHtml(resource.autor)}</p>
+      <p>Por ${escapeHtml(resource.autor)}</p>
       <div class="resource-tags">${['materia', 'formato', 'tipo', 'nivel_ensino'].filter(key => resource[key]).map(key => `<span>${escapeHtml(resource[key])}</span>`).join('')}</div>
       <p class="resource-description">${escapeHtml(resource.descricao || 'Descrição não informada neste registro.')}</p>
       <details class="resource-record"><summary>Dados do registro</summary>
@@ -89,6 +94,13 @@ function applyFilters() {
 }
 
 form.addEventListener('submit', event => { event.preventDefault(); applyFilters(); });
+sort.addEventListener('change', render);
+document.querySelectorAll('[data-query]').forEach(button => {
+  button.addEventListener('click', () => {
+    form.elements.q.value = button.dataset.query;
+    applyFilters();
+  });
+});
 form.addEventListener('change', event => { if (event.target.tagName === 'SELECT') applyFilters(); });
 form.addEventListener('reset', event => {
   event.preventDefault();
